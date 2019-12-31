@@ -23,6 +23,7 @@ namespace DatingApp.API.Controllers
             _context = context;
 
         }
+        [AllowAnonymous]
         [HttpGet]
         // IActionResult allows us to get HTTP responeses
         public async Task<IActionResult> GetValues()

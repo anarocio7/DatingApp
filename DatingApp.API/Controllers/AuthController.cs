@@ -30,10 +30,8 @@ namespace DatingApp.API.Controllers
 
         public async Task<IActionResult> Register(UserForRegisterDTO userForRegisterDTO)
         {
-            // Validate Request. Turn username to lowercase
-            // And Check if exists
-
             userForRegisterDTO.UserName = userForRegisterDTO.UserName.ToLower();
+
             if (await _repo.UserExists(userForRegisterDTO.UserName))
                 return BadRequest("Username already exists");
 
@@ -45,6 +43,7 @@ namespace DatingApp.API.Controllers
             var createdUser = await _repo.Register(userToCreate, userForRegisterDTO.Password);
 
             return StatusCode(201);
+
         }
 
         [HttpPost("login")]
