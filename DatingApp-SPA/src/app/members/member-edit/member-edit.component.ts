@@ -36,7 +36,7 @@ export class MemberEditComponent implements OnInit {
       // tslint:disable-next-line:no-string-literal
       this.user = data['user'];
     });
-    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl === photoUrl);
+    this.authService.currentPhotoURL.subscribe(photoUrl => this.photoUrl === photoUrl);
   }
 
   updateUser() {
