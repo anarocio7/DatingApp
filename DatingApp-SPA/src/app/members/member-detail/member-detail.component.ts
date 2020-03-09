@@ -23,7 +23,7 @@ export class MemberDetailComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       const user = 'user';
-      this.user = data[user];
+      this.user = data['user'];
     });
     this.galleryOptions = [
       {
@@ -41,7 +41,7 @@ export class MemberDetailComponent implements OnInit {
 
   getImages() {
     const imageUrls = [];
-    for (const photo of this.user.photos){
+    for(const photo of this.user.photos){
       imageUrls.push({
         small: photo.url,
         medium: photo.url,
