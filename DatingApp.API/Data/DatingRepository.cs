@@ -122,8 +122,12 @@ namespace DatingApp.API.Data
         {
             var messages = await _context.Messages.Include(u => u.Sender).ThenInclude(p => p.Photos)
                                 .Include(u => u.Receiver).ThenInclude(p => p.Photos)
-                                .Where(m => m.ReceiverId == userId && m.SenderId == receiverId 
-                                || m.ReceiverId == receiverId && m.SenderId == userId)
+                                .Where(m => m.ReceiverId == userId 
+                                    && m.ReceiverDeleted == false
+                                    && m.SenderId == receiverId 
+                                    || m.ReceiverId == receiverId 
+                                    && m.SenderId == userId
+                                    && m.SenderDeleted == false)
                                 .OrderByDescending(m => m.MessageSent)
                                 .ToListAsync();
 
@@ -137,15 +141,18 @@ namespace DatingApp.API.Data
                                             .AsQueryable();
 
             switch(messageParams.MessageContainer)
-            {
+            { 
                 case "Inbox":
-                    messages = messages.Where(u => u.ReceiverId == messageParams.UserId);
+                    messages = messages.Where(u => u.ReceiverId == messageParams.UserId 
+                        && u.ReceiverDeleted == false);
                     break;
                 case "Outbox":
-                    messages = messages.Where(u => u.SenderId == messageParams.UserId);
+                    messages = messages.Where(u => u.SenderId == messageParams.UserId 
+                        && u.SenderDeleted == false);
                     break;
                 default:
-                    messages = messages.Where(u => u.ReceiverId == messageParams.UserId && u.IsRead == false);
+                    messages = messages.Where(u => u.ReceiverId == messageParams.UserId 
+                        && u.ReceiverDeleted == false && u.IsRead == false);
                     break;
             }
 
