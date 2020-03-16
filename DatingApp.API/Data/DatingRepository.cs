@@ -120,18 +120,19 @@ namespace DatingApp.API.Data
 
         public async Task<IEnumerable<Message>> GetMessageThread(int userId, int receiverId)
         {
-            var messages = await _context.Messages.Include(u => u.Sender).ThenInclude(p => p.Photos)
-                                .Include(u => u.Receiver).ThenInclude(p => p.Photos)
-                                .Where(m => m.ReceiverId == userId 
+            var messages = await _context.Messages
+                    .Include(u => u.Sender).ThenInclude(p => p.Photos)
+                    .Include(u => u.Receiver).ThenInclude(p => p.Photos)
+                    .Where(m => m.ReceiverId == userId 
                                     && m.ReceiverDeleted == false
                                     && m.SenderId == receiverId 
                                     || m.ReceiverId == receiverId 
                                     && m.SenderId == userId
                                     && m.SenderDeleted == false)
-                                .OrderByDescending(m => m.MessageSent)
-                                .ToListAsync();
+                    .OrderByDescending(m => m.MessageSent)
+                    .ToListAsync();
 
-                                return messages;
+                    return messages;
         }
 
         public async Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)

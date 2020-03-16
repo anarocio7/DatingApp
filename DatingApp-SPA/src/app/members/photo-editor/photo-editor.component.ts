@@ -24,7 +24,7 @@ export class PhotoEditorComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private userService: UserService,
-              private alertify: AlertifyService){
+              private alertify: AlertifyService) {
   }
 
   ngOnInit() {
@@ -49,19 +49,19 @@ export class PhotoEditorComponent implements OnInit {
     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
-      if(response){
+      if(response) {
         const res: Photo =  JSON.parse(response);
         const photo = {
           id: res.id,
-          url: res.url,
+          URL: res.URL,
           dateAdded: res.dateAdded,
           description: res.description,
           isMain: res.isMain
         };
         this.photos.push(photo);
         if (photo.isMain) {
-          this.authService.changeMemberPhoto(photo.url);
-          this.authService.currentUser.photoUrl = photo.url;
+          this.authService.changeMemberPhoto(photo.URL);
+          this.authService.currentUser.photoURL = photo.URL;
           localStorage.setItem('user', JSON.stringify(this.authService.currentUser));
         }
       }
@@ -74,8 +74,8 @@ export class PhotoEditorComponent implements OnInit {
         this.currentMain = this.photos.filter(p => p.isMain === true)[0];
         this.currentMain.isMain = false;
         photo.isMain = true;
-        this.authService.changeMemberPhoto(photo.url);
-        this.authService.currentUser.photoUrl = photo.url;
+        this.authService.changeMemberPhoto(photo.URL);
+        this.authService.currentUser.photoURL = photo.URL;
         localStorage.setItem('user', JSON.stringify(this.authService.currentUser));
       }, error => {
         this.alertify.error(error);

@@ -25,17 +25,18 @@
         <th style="width: 20%">Sent / Received</th>
         <th style="width: 20%"></th>
       </tr>
-      <tr *ngFor="let message of messages" [routerLink]="['/members',
-        messageContainer == 'Outbox' ? message.receiverId : message.senderId]" [queryParams]="{tab: 3}">
+      <tr *ngFor="let message of messages"
+          [routerLink]="['/members', messageContainer == 'Outbox' ? message.receiverId : message.senderId]"
+          [queryParams]="{tab: 3}">
         <td>{{message.content}}</td>
         <td>
           <div *ngIf="messageContainer != 'Outbox'">
-                <img src={{message?.senderPhotoUrl}} class="img-circle rounded-circle mr-1">
-                <strong>{{message.senderKnownAs}}</strong>
+            <img src={{message.senderPhotoURL}} class="img-circle rounded-circle mr-1">
+              <strong>{{message.senderKnownAs}}</strong>
           </div>
           <div *ngIf="messageContainer == 'Outbox'">
-                <img src={{message?.receiverPhotoUrl}} class="img-circle rounded-circle mr-1">
-                <strong>{{message.receiverKnownAs}}</strong>
+            <img src={{message.receiverPhotoURL}} class="img-circle rounded-circle mr-1">
+              <strong>{{message.receiverKnownAs}}</strong>
           </div>
         </td>
         <td>{{message.messageSent | timeAgo}}</td>

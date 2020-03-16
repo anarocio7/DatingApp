@@ -11,14 +11,14 @@ import { Router } from '@angular/router';
 export class NavComponent implements OnInit {
 
   model: any = {};
-  photoUrl: string;
+  photoURL: string;
 
   constructor(public authService: AuthService,
               private alertify: AlertifyService,
               private router: Router) { }
 
   ngOnInit() {
-    this.authService.currentPhotoURL.subscribe(photoUrl => this.photoUrl = photoUrl);
+    this.authService.currentPhotoURL.subscribe(photoURL => this.photoURL = photoURL);
   }
 
   login() {

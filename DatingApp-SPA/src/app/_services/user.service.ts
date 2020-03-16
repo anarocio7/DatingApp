@@ -83,7 +83,7 @@ export class UserService {
                 .pipe(
                   map(response => {
                     paginatedResults.result = response.body;
-                    if(response.headers.get('Pagination') !== null){
+                    if (response.headers.get('Pagination') !== null) {
                       paginatedResults.pagination = JSON.parse(response.headers.get('Pagination'));
                     }
                     return paginatedResults;

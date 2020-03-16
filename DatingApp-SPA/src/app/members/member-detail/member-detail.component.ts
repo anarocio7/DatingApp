@@ -50,9 +50,9 @@ export class MemberDetailComponent implements OnInit {
     const imageUrls = [];
     for(const photo of this.user.photos){
       imageUrls.push({
-        small: photo.url,
-        medium: photo.url,
-        big: photo.url,
+        small: photo.URL,
+        medium: photo.URL,
+        big: photo.URL,
         description: photo.description
       });
     }

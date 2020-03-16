@@ -24,7 +24,6 @@ namespace DatingApp.API.Controllers
         {
             _mapper = mapper;
             _repo = repo;
-
         } 
 
         [HttpGet("{id}", Name = "GetMessage")]
@@ -71,9 +70,7 @@ namespace DatingApp.API.Controllers
         public async Task<IActionResult> GetMessageThread(int userId, int receiverId)
         {
             if(userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-            {
                 return Unauthorized(); 
-            }
 
             var messageFromRepo = await _repo.GetMessageThread(userId, receiverId);
             var messageThread = _mapper.Map<IEnumerable<MessageToReturnDTO>>(messageFromRepo);
@@ -97,9 +94,7 @@ namespace DatingApp.API.Controllers
             var receiver = await _repo.GetUser(messageForCreationDTO.ReceiverId);
 
             if(receiver == null)
-            {
                 return BadRequest("Could not find user");
-            }
 
             var message = _mapper.Map<Message>(messageForCreationDTO);
 
@@ -108,7 +103,7 @@ namespace DatingApp.API.Controllers
             if(await _repo.SaveAll())
             {
                 var messageToReturn = _mapper.Map<MessageToReturnDTO>(message);
-                return CreatedAtRoute("GetMessage", new { id = message.Id }, messageToReturn);
+                return CreatedAtRoute("GetMessage", new { userId, id = message.Id }, messageToReturn);
             }
             throw new Exception("Creating the message failed on save");
         }
